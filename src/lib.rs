@@ -111,4 +111,107 @@ impl Solution {
         }
         panic!()
     }
+
+    /// # Q3. find median sorted arrays
+    ///
+    /// ## 题目
+    ///
+    /// 给定两个大小为 m 和 n 的正序（从小到大）数组 nums1 和 nums2。
+    ///
+    /// 请你找出这两个正序数组的中位数，并且要求算法的时间复杂度为 O(log(m + n))。
+    ///
+    /// 你可以假设 nums1 和 nums2 不会同时为空。
+    ///
+    /// ## 示例
+    ///
+    /// 示例 1:
+    /// ```shell
+    /// nums1 = [1, 3]
+    /// nums2 = [2]
+    ///
+    /// 则中位数是 2.0
+    /// ```
+    ///
+    /// 示例 2:
+    /// ```shell
+    /// nums1 = [1, 2]
+    /// nums2 = [3, 4]
+    ///
+    /// 则中位数是 (2 + 3)/2 = 2.5
+    /// ```
+    ///
+    /// ## Solution Test
+    ///
+    /// ```rust
+    /// use leetcode_rs::Solution;
+    ///
+    /// assert_eq!(Solution::find_median_sorted_arrays(&[1, 3], &[2]), 2.0f64);
+    /// assert_eq!(Solution::find_median_sorted_arrays(&[1, 2], &[3, 4]), 2.5f64);
+    /// assert_eq!(Solution::find_median_sorted_arrays(&[1, 3, 5, 7, 8], &[4, 5, 9]), 5.0f64);
+    /// assert_eq!(Solution::find_median_sorted_arrays(&[1, 3, 5, 7, 8], &[4]), 4.5f64);
+    /// assert_eq!(Solution::find_median_sorted_arrays(&[1, 3, 5, 7, 8], &[]), 5.0f64);
+    /// assert_eq!(Solution::find_median_sorted_arrays(&[1], &[4]), 2.5f64);
+    /// assert_eq!(Solution::find_median_sorted_arrays(&[1], &[]), 1.0f64);
+    /// ```
+    ///
+    /// ## Leetcode Test
+    ///
+    /// - time: 4ms
+    /// - memory: 2m
+    ///
+    pub fn find_median_sorted_arrays(nums1: &[i32], nums2: &[i32]) -> f64 {
+        use std::cmp;
+        use std::i32;
+
+        let mut index1: usize = 0;
+        let mut index2: usize = 0;
+        let target: usize = (nums1.len() + nums2.len()) / 2 + (nums1.len() + nums2.len()) % 2;
+        while target > index1 + index2 {
+            let remain = target - index1 - index2;
+            // 按比例大致分配
+            let lift1 = (remain * (nums1.len() - index1))
+                / (nums1.len() - index1 + nums2.len() - index2)
+                + 1 * (((remain * (nums1.len() - index1))
+                    % (nums1.len() - index1 + nums2.len() - index2)
+                    != 0) as usize);
+            let lift1 = cmp::min(cmp::max(lift1, 1), nums1.len() - index1);
+            let lift2 = cmp::min(cmp::max(remain - lift1, 1), nums2.len() - index2);
+            if lift1 == 0 {
+                index2 += lift2;
+            } else if lift2 == 0 || nums1[index1 + lift1 - 1] <= nums2[index2 + lift2 - 1] {
+                index1 += lift1;
+            } else {
+                index2 += lift2;
+            };
+        }
+
+        if index1 == 0 && (nums1.len() + nums2.len()) % 2 == 0 {
+            (nums2[index2 - 1]
+                + cmp::min(
+                    nums1.get(index1).unwrap_or(&i32::MAX),
+                    nums2.get(index2).unwrap_or(&i32::MAX),
+                )) as f64
+                / 2f64
+        } else if index2 == 0 && (nums1.len() + nums2.len()) % 2 == 0 {
+            (nums1[index1 - 1]
+                + cmp::min(
+                    nums1.get(index1).unwrap_or(&i32::MAX),
+                    nums2.get(index2).unwrap_or(&i32::MAX),
+                )) as f64
+                / 2f64
+        } else if (nums1.len() + nums2.len()) % 2 == 0 {
+            (cmp::max(nums1[index1 - 1], nums2[index2 - 1])
+                + cmp::min(
+                    nums1.get(index1).unwrap_or(&i32::MAX),
+                    nums2.get(index2).unwrap_or(&i32::MAX),
+                )) as f64
+                / 2f64
+        } else if index1 == 0 {
+            nums2[index2 - 1] as f64
+        } else if index2 == 0 {
+            nums1[index1 - 1] as f64
+        } else {
+            cmp::max(nums1[index1 - 1], nums2[index2 - 1]) as f64
+        }
+    }
 }
