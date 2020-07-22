@@ -152,6 +152,7 @@ impl Solution {
     /// assert_eq!(Solution::find_median_sorted_arrays(&[1, 3, 5, 7, 8], &[]), 5.0f64);
     /// assert_eq!(Solution::find_median_sorted_arrays(&[1], &[4]), 2.5f64);
     /// assert_eq!(Solution::find_median_sorted_arrays(&[1], &[]), 1.0f64);
+    /// assert_eq!(Solution::find_median_sorted_arrays(&[1, 2], &[-1, 3]), 1.5f64);
     /// ```
     ///
     /// ## Leetcode Test
@@ -167,15 +168,20 @@ impl Solution {
         let mut index2: usize = 0;
         let target: usize = (nums1.len() + nums2.len()) / 2 + (nums1.len() + nums2.len()) % 2;
         while target > index1 + index2 {
-            let remain = target - index1 - index2;
-            // 按比例大致分配
-            let lift1 = (remain * (nums1.len() - index1))
-                / (nums1.len() - index1 + nums2.len() - index2)
-                + 1 * (((remain * (nums1.len() - index1))
-                    % (nums1.len() - index1 + nums2.len() - index2)
-                    != 0) as usize);
-            let lift1 = cmp::min(cmp::max(lift1, 1), nums1.len() - index1);
-            let lift2 = cmp::min(cmp::max(remain - lift1, 1), nums2.len() - index2);
+            let remain = (target - index1 - index2) % 2;
+            let lift = (target - index1 - index2) / 2;
+            let (lift1, lift2) = if lift + remain > nums1.len() - index1 {
+                (nums1.len() - index1, lift + index1 + remain - nums1.len())
+            } else if lift + remain > nums2.len() - index2 {
+                (lift + index2 + remain - nums2.len(), nums2.len() - index2)
+            } else {
+                (
+                    cmp::min(lift + remain, nums1.len() - index1),
+                    cmp::min(lift + remain, nums2.len() - index2),
+                )
+            };
+            // let lift1: usize = cmp::min(cmp::max(left / 2, 1), nums1.len() - index1);
+            // let lift2: usize = cmp::min(cmp::max(left - lift1, 1), nums2.len() - index2);
             if lift1 == 0 {
                 index2 += lift2;
             } else if lift2 == 0 || nums1[index1 + lift1 - 1] <= nums2[index2 + lift2 - 1] {
