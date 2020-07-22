@@ -79,8 +79,8 @@ impl Solution {
         use std::collections::HashMap;
 
         let mut map: HashMap<i32, usize> = HashMap::new();
-        for i in 0..nums.len() {
-            if let Some(v) = map.get(&(target - nums[i])) {
+        for (i, j) in nums.iter().enumerate() {
+            if let Some(v) = map.get(&(target - j)) {
                 return vec![*v as i32, i as i32];
             };
             map.insert(nums[i], i);
