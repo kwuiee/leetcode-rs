@@ -1,19 +1,14 @@
-#![allow(dead_code)]
-use std::iter::Iterator;
-
 pub struct Solution;
 
 impl Solution {
     /// # Q1: dive board
     ///
-    /// ## 题目
     /// 你正在使用一堆木板建造跳水板。有两种类型的木板，其中长度较短的木板长度为shorter，长度较长的木板长度为longer。
     /// 你必须正好使用k块木板。编写一个方法，生成跳水板所有可能的长度。
     ///
-    /// ## 要求
-    /// 返回的长度需要从小到大排列。
+    /// 要求: 返回的长度需要从小到大排列。
     ///
-    /// ## 示例：
+    /// # 示例：
     ///
     ///   输入：
     ///   ```shell
@@ -26,10 +21,10 @@ impl Solution {
     ///       0 < shorter <= longer
     ///           0 <= k <= 100000
     ///
-    /// ## Solution Test
+    /// # Example
     ///
     /// ```rust
-    /// use leetcode_rs::Solution;
+    /// use leetcode::Solution;
     ///
     /// assert_eq!(Solution::dive_board(1, 2, 3), vec![3, 4, 5, 6]);
     /// assert_eq!(Solution::dive_board(1, 1, 0), vec![]);
@@ -47,29 +42,26 @@ impl Solution {
                 .collect()
         }
     }
+}
 
+impl Solution {
     /// # Q2: two sum
-    ///
-    /// ## 题目
     ///
     /// 给定一个整数数组 nums 和一个目标值 target，请你在该数组中找出和为目标值的那两个
     /// 整数，并返回他们的数组下标。
     ///
     /// 你可以假设每种输入只会对应一个答案。但是，你不能重复利用这个数组中同样的元素。
     ///
-    /// ## 示例
-    ///
     /// 给定 nums = [2, 7, 11, 15], target = 9
-    ///
     /// 因为 nums[0] + nums[1] = 2 + 7 = 9
     /// 所以返回 [0, 1]
     ///
-    /// ## Solution Test
+    /// # Example
     ///
     /// > time effecient
     ///
     /// ```rust
-    /// use leetcode_rs::Solution;
+    /// use leetcode::Solution;
     ///
     /// assert_eq!(Solution::two_sum(vec![2, 7, 11, 5], 9), vec![0, 1]);
     /// assert_eq!(Solution::two_sum(vec![3, 2, 4], 6), vec![1, 2]);
@@ -90,12 +82,12 @@ impl Solution {
 
     /// # Q2. two sum
     ///
-    /// ## Solution Test
+    /// # Example
     ///
     /// > memory effecient
     ///
     /// ```rust
-    /// use leetcode_rs::Solution;
+    /// use leetcode::Solution;
     ///
     /// assert_eq!(Solution::two_sum2(vec![2, 7, 11, 5], 9), vec![0, 1]);
     /// assert_eq!(Solution::two_sum2(vec![3, 2, 4], 6), vec![1, 2]);
@@ -111,18 +103,16 @@ impl Solution {
         }
         panic!()
     }
+}
 
+impl Solution {
     /// # Q3. find median sorted arrays
     ///
-    /// ## 题目
-    ///
     /// 给定两个大小为 m 和 n 的正序（从小到大）数组 nums1 和 nums2。
-    ///
     /// 请你找出这两个正序数组的中位数，并且要求算法的时间复杂度为 O(log(m + n))。
-    ///
     /// 你可以假设 nums1 和 nums2 不会同时为空。
     ///
-    /// ## 示例
+    /// # Example
     ///
     /// 示例 1:
     /// ```shell
@@ -140,10 +130,8 @@ impl Solution {
     /// 则中位数是 (2 + 3)/2 = 2.5
     /// ```
     ///
-    /// ## Solution Test
-    ///
     /// ```rust
-    /// use leetcode_rs::Solution;
+    /// use leetcode::Solution;
     ///
     /// assert_eq!(Solution::find_median_sorted_arrays(&[1, 3], &[2]), 2.0f64);
     /// assert_eq!(Solution::find_median_sorted_arrays(&[1, 2], &[3, 4]), 2.5f64);
@@ -155,7 +143,7 @@ impl Solution {
     /// assert_eq!(Solution::find_median_sorted_arrays(&[1, 2], &[-1, 3]), 1.5f64);
     /// ```
     ///
-    /// ## Leetcode Test
+    /// # Benchmark
     ///
     /// - time: 4ms
     /// - memory: 2m
