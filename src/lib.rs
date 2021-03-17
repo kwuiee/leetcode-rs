@@ -209,3 +209,49 @@ impl Solution {
         }
     }
 }
+
+impl Solution {
+    /// Q300 Longest Increasing Subsequence
+    ///
+    /// 给你一个整数数组 nums ，找到其中最长严格递增子序列的长度。
+    /// [Leetcode300](https://leetcode-cn.com/problems/longest-increasing-subsequence/)
+    ///
+    /// # Example
+    ///
+    /// ```rust
+    /// use leetcode::Solution;
+    ///
+    /// assert_eq!(Solution::longest_increasing_subsequence(vec![10, 9, 2, 5, 3, 7, 101, 18]), (vec![2, 3, 7, 18], 4));
+    /// assert_eq!(Solution::longest_increasing_subsequence(vec![0, 1, 0, 3, 2, 3]), (vec![0, 1, 2, 3], 4));
+    /// assert_eq!(Solution::longest_increasing_subsequence(vec![7, 7, 7, 7, 7, 7, 7]), (vec![7], 1));
+    /// ```
+    pub fn longest_increasing_subsequence(nums: Vec<i32>) -> (Vec<i32>, i32) {
+        let mut lis = vec![1i32; nums.len()];
+        for i in 1..nums.len() {
+            for j in 0..i {
+                if nums[i] > nums[j] && lis[i] < lis[j] + 1 {
+                    lis[i] = lis[j] + 1
+                }
+            }
+        }
+
+        // length of lis
+        let len_lis = *lis.iter().max().unwrap();
+        let mut stepper = len_lis;
+
+        // longest increasing subsequence
+        let lis: Vec<i32> = lis
+            .into_iter()
+            .enumerate()
+            .rev()
+            .filter_map(|(i, v)| {
+                (stepper == v).then(|| {
+                    stepper -= 1;
+                    nums[i]
+                })
+            })
+            // .rev() // #FIXME, double rev give `filter_map` a original forward?
+            .collect();
+        (lis.into_iter().rev().collect(), len_lis)
+    }
+}
