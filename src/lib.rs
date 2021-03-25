@@ -157,7 +157,7 @@ impl Solution {
     /// assert_eq!(Solution::find_median_sorted_arrays(&[1, 2], &[-1, 3]), 1.5f64);
     /// ```
     ///
-    /// # Benchmark
+    /// # Leetcode Benchmark
     ///
     /// - time: 4ms
     /// - memory: 2m
@@ -267,5 +267,78 @@ impl Solution {
             // .rev() // #FIXME, double rev give `filter_map` a original forward?
             .collect();
         (lis.into_iter().rev().collect(), len_lis)
+    }
+}
+
+impl Solution {
+    /// # Q1143. Longest Common Subsequence
+    ///
+    /// [Leetcode1143](https://leetcode.com/problems/longest-common-subsequence/)
+    ///
+    /// 给定两个字符串 text1 和 text2，返回这两个字符串的最长公共子序列的长度。
+    ///
+    /// 一个字符串的 子序列
+    /// 是指这样一个新的字符串：它是由原字符串在不改变字符的相对顺序的情况下删除某些字符（也可以不删除任何字符）后组成的新字符串。
+    /// 例如，"ace" 是 "abcde" 的子序列，但 "aec" 不是 "abcde"
+    /// 的子序列。两个字符串的「公共子序列」是这两个字符串所共同拥有的子序列。
+    ///
+    /// 若这两个字符串没有公共子序列，则返回 0。
+    ///
+    /// 示例 1:
+    ///
+    /// 输入：text1 = "abcde", text2 = "ace"
+    /// 输出：3  
+    /// 解释：最长公共子序列是 "ace"，它的长度为 3。
+    ///
+    /// 示例 2:
+    ///
+    /// 输入：text1 = "abc", text2 = "abc"
+    /// 输出：3
+    /// 解释：最长公共子序列是 "abc"，它的长度为 3。
+    ///
+    /// 示例 3:
+    ///
+    /// 输入：text1 = "abc", text2 = "def"
+    /// 输出：0
+    /// 解释：两个字符串没有公共子序列，返回 0。
+    ///
+    /// 提示:
+    ///     1 <= text1.length <= 1000
+    ///     1 <= text2.length <= 1000
+    ///     输入的字符串只含有小写英文字符。
+    ///
+    /// # Solution
+    ///
+    ///   a b c d e
+    /// a 1 1 1 1 1
+    /// c 1 1 2 2 2
+    /// e 1 1 2 2 3
+    ///
+    /// # Example
+    ///
+    /// ```rust
+    /// use leetcode::Solution;
+    ///
+    /// assert_eq!(Solution::longest_common_subsequence(String::from("abcde"), String::from("ace")), 3);
+    /// ```
+    ///
+    /// # Benchmark
+    ///
+    /// time ~ O(m*n)
+    ///
+    pub fn longest_common_subsequence(text1: String, text2: String) -> i32 {
+        let (slice1, slice2) = (text1.as_bytes(), text2.as_bytes());
+        let (m, n) = (text1.len(), text2.len());
+        let mut cumu = vec![vec![0i32; n + 1]; m + 1];
+        for i in 1..(m + 1) {
+            for j in 1..(n + 1) {
+                if slice1[i - 1] == slice2[j - 1] {
+                    cumu[i][j] = cumu[i - 1][j - 1] + 1;
+                } else {
+                    cumu[i][j] = i32::max(cumu[i][j - 1], cumu[i - 1][j]);
+                }
+            }
+        }
+        cumu[m][n]
     }
 }
