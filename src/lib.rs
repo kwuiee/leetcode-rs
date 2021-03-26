@@ -11,30 +11,34 @@
 //    ___)( )(___
 //   (((__) (__)))
 //
+//! Leetcode Solutions.
+//!
+//! A rust implementation.
+#![feature(test)]
+extern crate test;
 
 pub struct Solution;
 
+/// # Q1. Dive Borad
+///
+/// 你正在使用一堆木板建造跳水板。有两种类型的木板，其中长度较短的木板长度为shorter，长度较长的木板长度为longer。
+/// 你必须正好使用k块木板。编写一个方法，生成跳水板所有可能的长度。
+///
+/// 要求: 返回的长度需要从小到大排列。
+///
+/// # 示例：
+///
+///   输入：
+///   ```shell
+///   shorter = 1
+///   longer = 2
+///   k = 3
+///   ```
+///   输出： {3,4,5,6}
+///   提示：
+///       0 < shorter <= longer
+///           0 <= k <= 100000
 impl Solution {
-    /// # Q1: dive board
-    ///
-    /// 你正在使用一堆木板建造跳水板。有两种类型的木板，其中长度较短的木板长度为shorter，长度较长的木板长度为longer。
-    /// 你必须正好使用k块木板。编写一个方法，生成跳水板所有可能的长度。
-    ///
-    /// 要求: 返回的长度需要从小到大排列。
-    ///
-    /// # 示例：
-    ///
-    ///   输入：
-    ///   ```shell
-    ///   shorter = 1
-    ///   longer = 2
-    ///   k = 3
-    ///   ```
-    ///   输出： {3,4,5,6}
-    ///   提示：
-    ///       0 < shorter <= longer
-    ///           0 <= k <= 100000
-    ///
     /// # Example
     ///
     /// ```rust
@@ -58,18 +62,17 @@ impl Solution {
     }
 }
 
+/// # Q2. Two Sum
+///
+/// 给定一个整数数组 nums 和一个目标值 target，请你在该数组中找出和为目标值的那两个
+/// 整数，并返回他们的数组下标。
+///
+/// 你可以假设每种输入只会对应一个答案。但是，你不能重复利用这个数组中同样的元素。
+///
+/// 给定 nums = [2, 7, 11, 15], target = 9
+/// 因为 nums[0] + nums[1] = 2 + 7 = 9
+/// 所以返回 [0, 1]
 impl Solution {
-    /// # Q2: two sum
-    ///
-    /// 给定一个整数数组 nums 和一个目标值 target，请你在该数组中找出和为目标值的那两个
-    /// 整数，并返回他们的数组下标。
-    ///
-    /// 你可以假设每种输入只会对应一个答案。但是，你不能重复利用这个数组中同样的元素。
-    ///
-    /// 给定 nums = [2, 7, 11, 15], target = 9
-    /// 因为 nums[0] + nums[1] = 2 + 7 = 9
-    /// 所以返回 [0, 1]
-    ///
     /// # Example
     ///
     /// > time effecient
@@ -94,8 +97,6 @@ impl Solution {
         panic!()
     }
 
-    /// # Q2. two sum
-    ///
     /// # Example
     ///
     /// > memory effecient
@@ -119,30 +120,31 @@ impl Solution {
     }
 }
 
+/// # Q3. Find Median Sorted Arrays
+///
+/// 给定两个大小为 m 和 n 的正序（从小到大）数组 nums1 和 nums2。
+/// 请你找出这两个正序数组的中位数，并且要求算法的时间复杂度为 O(log(m + n))。
+/// 你可以假设 nums1 和 nums2 不会同时为空。
+///
+/// # Example
+///
+/// 示例 1:
+/// ```shell
+/// nums1 = [1, 3]
+/// nums2 = [2]
+///
+/// 则中位数是 2.0
+/// ```
+///
+/// 示例 2:
+/// ```shell
+/// nums1 = [1, 2]
+/// nums2 = [3, 4]
+///
+/// 则中位数是 (2 + 3)/2 = 2.5
+/// ```
 impl Solution {
-    /// # Q3. find median sorted arrays
-    ///
-    /// 给定两个大小为 m 和 n 的正序（从小到大）数组 nums1 和 nums2。
-    /// 请你找出这两个正序数组的中位数，并且要求算法的时间复杂度为 O(log(m + n))。
-    /// 你可以假设 nums1 和 nums2 不会同时为空。
-    ///
     /// # Example
-    ///
-    /// 示例 1:
-    /// ```shell
-    /// nums1 = [1, 3]
-    /// nums2 = [2]
-    ///
-    /// 则中位数是 2.0
-    /// ```
-    ///
-    /// 示例 2:
-    /// ```shell
-    /// nums1 = [1, 2]
-    /// nums2 = [3, 4]
-    ///
-    /// 则中位数是 (2 + 3)/2 = 2.5
-    /// ```
     ///
     /// ```rust
     /// use leetcode::Solution;
@@ -157,7 +159,9 @@ impl Solution {
     /// assert_eq!(Solution::find_median_sorted_arrays(&[1, 2], &[-1, 3]), 1.5f64);
     /// ```
     ///
-    /// # Leetcode Benchmark
+    /// # Benchmark
+    ///
+    /// Leetcode benchmark
     ///
     /// - time: 4ms
     /// - memory: 2m
@@ -224,12 +228,11 @@ impl Solution {
     }
 }
 
+/// # Q300. Longest Increasing Subsequence
+///
+/// 给你一个整数数组 nums ，找到其中最长严格递增子序列的长度。
+/// [Leetcode300](https://leetcode-cn.com/problems/longest-increasing-subsequence/)
 impl Solution {
-    /// Q300 Longest Increasing Subsequence
-    ///
-    /// 给你一个整数数组 nums ，找到其中最长严格递增子序列的长度。
-    /// [Leetcode300](https://leetcode-cn.com/problems/longest-increasing-subsequence/)
-    ///
     /// # Example
     ///
     /// ```rust
@@ -270,43 +273,42 @@ impl Solution {
     }
 }
 
+/// # Q1143. Longest Common Subsequence
+///
+/// [Leetcode1143](https://leetcode.com/problems/longest-common-subsequence/)
+///
+/// 给定两个字符串 text1 和 text2，返回这两个字符串的最长公共子序列的长度。
+///
+/// 一个字符串的 子序列
+/// 是指这样一个新的字符串：它是由原字符串在不改变字符的相对顺序的情况下删除某些字符（也可以不删除任何字符）后组成的新字符串。
+/// 例如，"ace" 是 "abcde" 的子序列，但 "aec" 不是 "abcde"
+/// 的子序列。两个字符串的「公共子序列」是这两个字符串所共同拥有的子序列。
+///
+/// 若这两个字符串没有公共子序列，则返回 0。
+///
+/// 示例 1:
+///
+/// 输入：text1 = "abcde", text2 = "ace"
+/// 输出：3
+/// 解释：最长公共子序列是 "ace"，它的长度为 3。
+///
+/// 示例 2:
+///
+/// 输入：text1 = "abc", text2 = "abc"
+/// 输出：3
+/// 解释：最长公共子序列是 "abc"，它的长度为 3。
+///
+/// 示例 3:
+///
+/// 输入：text1 = "abc", text2 = "def"
+/// 输出：0
+/// 解释：两个字符串没有公共子序列，返回 0。
+///
+/// 提示:
+///     1 <= text1.length <= 1000
+///     1 <= text2.length <= 1000
+///     输入的字符串只含有小写英文字符。
 impl Solution {
-    /// # Q1143. Longest Common Subsequence
-    ///
-    /// [Leetcode1143](https://leetcode.com/problems/longest-common-subsequence/)
-    ///
-    /// 给定两个字符串 text1 和 text2，返回这两个字符串的最长公共子序列的长度。
-    ///
-    /// 一个字符串的 子序列
-    /// 是指这样一个新的字符串：它是由原字符串在不改变字符的相对顺序的情况下删除某些字符（也可以不删除任何字符）后组成的新字符串。
-    /// 例如，"ace" 是 "abcde" 的子序列，但 "aec" 不是 "abcde"
-    /// 的子序列。两个字符串的「公共子序列」是这两个字符串所共同拥有的子序列。
-    ///
-    /// 若这两个字符串没有公共子序列，则返回 0。
-    ///
-    /// 示例 1:
-    ///
-    /// 输入：text1 = "abcde", text2 = "ace"
-    /// 输出：3  
-    /// 解释：最长公共子序列是 "ace"，它的长度为 3。
-    ///
-    /// 示例 2:
-    ///
-    /// 输入：text1 = "abc", text2 = "abc"
-    /// 输出：3
-    /// 解释：最长公共子序列是 "abc"，它的长度为 3。
-    ///
-    /// 示例 3:
-    ///
-    /// 输入：text1 = "abc", text2 = "def"
-    /// 输出：0
-    /// 解释：两个字符串没有公共子序列，返回 0。
-    ///
-    /// 提示:
-    ///     1 <= text1.length <= 1000
-    ///     1 <= text2.length <= 1000
-    ///     输入的字符串只含有小写英文字符。
-    ///
     /// # Solution
     ///
     ///   a b c d e
@@ -340,5 +342,25 @@ impl Solution {
             }
         }
         cumu[m][n]
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use test::Bencher;
+
+    #[bench]
+    fn bench_find_median_sorted_arrays(b: &mut Bencher) {
+        b.iter(|| {
+            Solution::find_median_sorted_arrays(&[1, 3], &[2]);
+            Solution::find_median_sorted_arrays(&[1, 2], &[3, 4]);
+            Solution::find_median_sorted_arrays(&[1, 3, 5, 7, 8], &[4, 5, 9]);
+            Solution::find_median_sorted_arrays(&[1, 3, 5, 7, 8], &[4]);
+            Solution::find_median_sorted_arrays(&[1, 3, 5, 7, 8], &[]);
+            Solution::find_median_sorted_arrays(&[1], &[4]);
+            Solution::find_median_sorted_arrays(&[1], &[]);
+            Solution::find_median_sorted_arrays(&[1, 2], &[-1, 3]);
+        });
     }
 }
