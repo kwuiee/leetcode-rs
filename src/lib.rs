@@ -228,7 +228,7 @@ impl Solution {
     }
 }
 
-/// # 153. 寻找旋转排序数组中的最小值
+/// # Q153. 寻找旋转排序数组中的最小值
 ///
 /// 已知一个长度为 n 的数组, 预先按照升序排列, 经由 1 到 n 次 旋转 后, 得到输入数组。例如, 原数组 nums = [0,1,2,4,5,6,7] 在变化后可能得到：
 /// 若旋转 4 次, 则可以得到 [4,5,6,7,0,1,2]
@@ -237,7 +237,7 @@ impl Solution {
 /// 注意, 数组 [a[0], a[1], a[2], ..., a[n-1]] 旋转一次 的结果为数组 [a[n-1], a[0], a[1], a[2], ..., a[n-2]] 。
 ///
 /// 给你一个元素值 互不相同 的数组 nums , 它原来是一个升序排列的数组, 并按上述情形进行了多次旋转。请你找出并返回数组中的 最小元素 。
-///  
+///
 ///
 /// 示例 1：
 ///
@@ -257,7 +257,7 @@ impl Solution {
 /// 输出：11
 /// 解释：原数组为 [11,13,15,17] , 旋转 4 次得到输入数组。
 ///
-///  
+///
 /// 提示：
 ///     n == nums.length
 ///     1 <= n <= 5000
@@ -265,7 +265,7 @@ impl Solution {
 ///     nums 中的所有整数 互不相同
 ///     nums 原来是一个升序排序的数组, 并进行了 1 至 n 次旋转
 impl Solution {
-    /// # Test
+    /// # Example
     ///
     /// ```rust
     /// use leetcode::Solution;
@@ -274,6 +274,11 @@ impl Solution {
     /// assert_eq!(Solution::find_min_in_rotated_sorted_arrary(vec![3,4,5,1,2]), 1);
     /// assert_eq!(Solution::find_min_in_rotated_sorted_arrary(vec![11,13,15,17]), 11);
     /// ```
+    ///
+    /// # Leetcode benchmark
+    ///
+    /// time 0ms
+    /// memory 1.9m
     pub fn find_min_in_rotated_sorted_arrary(nums: Vec<i32>) -> i32 {
         // Commented for memory saving.
         // assert!(nums.len() >= 1);
@@ -301,10 +306,34 @@ impl Solution {
     }
 }
 
-/// # Q300. Longest Increasing Subsequence
+/// # Q300. 最长递增子序列
+///
+/// [Leetcode300](https://leetcode-cn.com/problems/longest-increasing-subsequence/)
 ///
 /// 给你一个整数数组 nums ，找到其中最长严格递增子序列的长度。
-/// [Leetcode300](https://leetcode-cn.com/problems/longest-increasing-subsequence/)
+/// 子序列是由数组派生而来的序列，删除（或不删除）数组中的元素而不改变其余元素的顺序。例如，[3,6,2,7] 是数组 [0,3,1,6,2,2,7] 的子序列。
+///
+/// 示例 1：
+/// 输入：nums = [10,9,2,5,3,7,101,18]
+/// 输出：4
+/// 解释：最长递增子序列是 [2,3,7,101]，因此长度为 4 。
+///
+/// 示例 2：
+/// 输入：nums = [0,1,0,3,2,3]
+/// 输出：4
+///
+/// 示例 3：
+/// 输入：nums = [7,7,7,7,7,7,7]
+/// 输出：1
+///
+///
+/// 提示：
+///     1 <= nums.length <= 2500
+///     -104 <= nums[i] <= 104
+///
+/// 进阶：
+///     你可以设计时间复杂度为 O(n2) 的解决方案吗？
+///     你能将算法的时间复杂度降低到 O(n log(n)) 吗?
 impl Solution {
     /// # Example
     ///
@@ -346,7 +375,7 @@ impl Solution {
     }
 }
 
-/// # Q1143. Longest Common Subsequence
+/// # Q1143. 最长公共子序列
 ///
 /// [Leetcode1143](https://leetcode.com/problems/longest-common-subsequence/)
 ///
