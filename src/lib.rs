@@ -17,6 +17,9 @@
 #![feature(test)]
 extern crate test;
 
+use std::collections::BTreeMap;
+use std::collections::HashMap;
+
 pub struct Solution;
 
 /// # Q1. Dive Borad
@@ -85,8 +88,6 @@ impl Solution {
     /// assert_eq!(Solution::two_sum(vec![4, 4, 5, 3], 8), vec![0, 1]);
     /// ```
     pub fn two_sum(nums: Vec<i32>, target: i32) -> Vec<i32> {
-        use std::collections::HashMap;
-
         let mut map: HashMap<i32, usize> = HashMap::new();
         for (i, j) in nums.iter().enumerate() {
             if let Some(v) = map.get(&(target - j)) {
@@ -303,6 +304,97 @@ impl Solution {
             // };
         }
         i32::min(nums[low], nums[high])
+    }
+}
+
+/// # Q287 寻找重复数
+///
+/// [Leetcode287](https://leetcode-cn.com/problems/find-the-duplicate-number)
+///
+/// 给定一个包含 n + 1 个整数的数组 nums ，其数字都在 1 到 n 之间（包括 1 和 n），可知至少存在一个重复的整数。
+/// 假设 nums 只有 一个重复的整数 ，找出 这个重复的数 。
+///
+/// 示例 1：
+/// 输入：nums = [1,3,4,2,2]
+/// 输出：2
+///
+/// 示例 2：
+/// 输入：nums = [3,1,3,4,2]
+/// 输出：3
+///
+/// 示例 3：
+/// 输入：nums = [1,1]
+/// 输出：1
+///
+/// 示例 4：
+/// 输入：nums = [1,1,2]
+/// 输出：1
+///
+/// 提示：
+///     2 <= n <= 3 * 104
+///     nums.length == n + 1
+///     1 <= nums[i] <= n
+///     nums 中 只有一个整数 出现 两次或多次 ，其余整数均只出现 一次
+///
+///
+/// 进阶：
+///     如何证明 nums 中至少存在一个重复的数字?
+///     你可以在不修改数组 nums 的情况下解决这个问题吗？
+///     你可以只用常量级 O(1) 的额外空间解决这个问题吗？
+///     你可以设计一个时间复杂度小于 O(n2) 的解决方案吗？
+impl Solution {
+    /// # Examples
+    ///
+    /// ```rust
+    /// use leetcode::Solution;
+    ///
+    /// assert_eq!(Solution::find_the_duplicate_number_btreemap(vec![1,3,4,2,2]), 2);
+    /// assert_eq!(Solution::find_the_duplicate_number_btreemap(vec![3,1,3,4,2]), 3);
+    /// assert_eq!(Solution::find_the_duplicate_number_btreemap(vec![1,1]), 1);
+    /// assert_eq!(Solution::find_the_duplicate_number_btreemap(vec![1,1,2]), 1);
+    /// ```
+    ///
+    /// # Leetcode Benchmark
+    ///
+    /// time: 4ms, 5.56%
+    /// memory: 2.3MB, 50.00%
+    pub fn find_the_duplicate_number_btreemap(nums: Vec<i32>) -> i32 {
+        let mut container: BTreeMap<i32, bool> = BTreeMap::new();
+        for i in nums.into_iter() {
+            if let Some(_) = container.get(&i) {
+                return i;
+            } else {
+                container.insert(i, true);
+            }
+        }
+        panic!()
+    }
+
+    /// # Examples
+    ///
+    /// ```rust
+    /// use leetcode::Solution;
+    ///
+    /// assert_eq!(Solution::find_the_duplicate_number_hashmap(vec![1,3,4,2,2]), 2);
+    /// assert_eq!(Solution::find_the_duplicate_number_hashmap(vec![3,1,3,4,2]), 3);
+    /// assert_eq!(Solution::find_the_duplicate_number_hashmap(vec![1,1]), 1);
+    /// assert_eq!(Solution::find_the_duplicate_number_hashmap(vec![1,1,2]), 1);
+    /// ```
+    ///
+    /// # Leetcode Benchmark
+    ///
+    /// time: 0ms, 100%
+    /// memory: 2.5MB, 5.55%
+    pub fn find_the_duplicate_number_hashmap(nums: Vec<i32>) -> i32 {
+        let mut container: HashMap<i32, bool> = HashMap::new();
+        for i in nums.into_iter() {
+            if let Some(_) = container.get(&i) {
+                return i;
+            } else {
+                container.insert(i, true);
+            }
+        }
+        panic!()
     }
 }
 
