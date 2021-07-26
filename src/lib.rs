@@ -22,14 +22,14 @@ use std::collections::HashMap;
 
 pub struct Solution;
 
-/// # Q1. Dive Borad
+/// # 1. Dive Borad
 ///
 /// 你正在使用一堆木板建造跳水板。有两种类型的木板，其中长度较短的木板长度为shorter，长度较长的木板长度为longer。
 /// 你必须正好使用k块木板。编写一个方法，生成跳水板所有可能的长度。
 ///
 /// 要求: 返回的长度需要从小到大排列。
 ///
-/// # 示例：
+/// 示例：
 ///
 ///   输入：
 ///   ```shell
@@ -52,6 +52,11 @@ impl Solution {
     /// assert_eq!(Solution::dive_board(1, 1, 100), vec![100]);
     /// ```
     ///
+    /// # Benchmark
+    ///
+    /// Leetcode benchmark
+    /// - time: 20ms
+    /// - memory: 2.8MB
     pub fn dive_board(shorter: i32, longer: i32, k: i32) -> Vec<i32> {
         if k <= 0 {
             vec![]
@@ -65,7 +70,7 @@ impl Solution {
     }
 }
 
-/// # Q2. Two Sum
+/// # 2. Two Sum
 ///
 /// 给定一个整数数组 nums 和一个目标值 target，请你在该数组中找出和为目标值的那两个
 /// 整数，并返回他们的数组下标。
@@ -76,18 +81,26 @@ impl Solution {
 /// 因为 nums[0] + nums[1] = 2 + 7 = 9
 /// 所以返回 [0, 1]
 impl Solution {
+    pub fn two_sum(nums: Vec<i32>, target: i32) -> Vec<i32> {
+        Solution::two_sum_hashmap(nums, target)
+    }
+
     /// # Example
-    ///
-    /// > time effecient
     ///
     /// ```rust
     /// use leetcode::Solution;
     ///
-    /// assert_eq!(Solution::two_sum(vec![2, 7, 11, 5], 9), vec![0, 1]);
-    /// assert_eq!(Solution::two_sum(vec![3, 2, 4], 6), vec![1, 2]);
-    /// assert_eq!(Solution::two_sum(vec![4, 4, 5, 3], 8), vec![0, 1]);
+    /// assert_eq!(Solution::two_sum_hashmap(vec![2, 7, 11, 5], 9), vec![0, 1]);
+    /// assert_eq!(Solution::two_sum_hashmap(vec![3, 2, 4], 6), vec![1, 2]);
+    /// assert_eq!(Solution::two_sum_hashmap(vec![4, 4, 5, 3], 8), vec![0, 1]);
     /// ```
-    pub fn two_sum(nums: Vec<i32>, target: i32) -> Vec<i32> {
+    ///
+    /// # Benchmark
+    ///
+    /// Leetcode benchmark
+    /// - time: 32ms
+    /// - memory: 2MB
+    pub fn two_sum_hashmap(nums: Vec<i32>, target: i32) -> Vec<i32> {
         let mut map: HashMap<i32, usize> = HashMap::new();
         for (i, j) in nums.iter().enumerate() {
             if let Some(v) = map.get(&(target - j)) {
@@ -105,11 +118,11 @@ impl Solution {
     /// ```rust
     /// use leetcode::Solution;
     ///
-    /// assert_eq!(Solution::two_sum2(vec![2, 7, 11, 5], 9), vec![0, 1]);
-    /// assert_eq!(Solution::two_sum2(vec![3, 2, 4], 6), vec![1, 2]);
-    /// assert_eq!(Solution::two_sum2(vec![4, 4, 5, 3], 8), vec![0, 1]);
+    /// assert_eq!(Solution::two_sum_traverse(vec![2, 7, 11, 5], 9), vec![0, 1]);
+    /// assert_eq!(Solution::two_sum_traverse(vec![3, 2, 4], 6), vec![1, 2]);
+    /// assert_eq!(Solution::two_sum_traverse(vec![4, 4, 5, 3], 8), vec![0, 1]);
     /// ```
-    pub fn two_sum2(nums: Vec<i32>, target: i32) -> Vec<i32> {
+    pub fn two_sum_traverse(nums: Vec<i32>, target: i32) -> Vec<i32> {
         for i in 0..nums.len() {
             for j in (i + 1)..nums.len() {
                 if nums[i] + nums[j] == target {
@@ -121,7 +134,7 @@ impl Solution {
     }
 }
 
-/// # Q3. Find Median Sorted Arrays
+/// # 3. Find Median Sorted Arrays
 ///
 /// 给定两个大小为 m 和 n 的正序（从小到大）数组 nums1 和 nums2。
 /// 请你找出这两个正序数组的中位数，并且要求算法的时间复杂度为 O(log(m + n))。
@@ -229,7 +242,7 @@ impl Solution {
     }
 }
 
-/// # Q153. 寻找旋转排序数组中的最小值
+/// # 153. 寻找旋转排序数组中的最小值
 ///
 /// 已知一个长度为 n 的数组, 预先按照升序排列, 经由 1 到 n 次 旋转 后, 得到输入数组。例如, 原数组 nums = [0,1,2,4,5,6,7] 在变化后可能得到：
 /// 若旋转 4 次, 则可以得到 [4,5,6,7,0,1,2]
@@ -276,10 +289,11 @@ impl Solution {
     /// assert_eq!(Solution::find_min_in_rotated_sorted_arrary(vec![11,13,15,17]), 11);
     /// ```
     ///
-    /// # Leetcode benchmark
+    /// # Benchmark
     ///
-    /// time 0ms
-    /// memory 1.9m
+    /// Leetcode benchmark
+    /// - time 0ms
+    /// - memory 1.9m
     pub fn find_min_in_rotated_sorted_arrary(nums: Vec<i32>) -> i32 {
         // Commented for memory saving.
         // assert!(nums.len() >= 1);
@@ -307,7 +321,7 @@ impl Solution {
     }
 }
 
-/// # Q287 寻找重复数
+/// # 287 寻找重复数
 ///
 /// [Leetcode287](https://leetcode-cn.com/problems/find-the-duplicate-number)
 ///
@@ -358,10 +372,11 @@ impl Solution {
     /// assert_eq!(Solution::find_the_duplicate_number_btreemap(vec![1,1,2]), 1);
     /// ```
     ///
-    /// # Leetcode Benchmark
+    /// # Benchmark
     ///
-    /// time: 4ms, 5.56%
-    /// memory: 2.3MB, 50.00%
+    /// Leetcode benchmark
+    /// - time: 4ms, 5.56%
+    /// - memory: 2.3MB, 50.00%
     pub fn find_the_duplicate_number_btreemap(nums: Vec<i32>) -> i32 {
         let mut container: BTreeMap<i32, bool> = BTreeMap::new();
         for i in nums.into_iter() {
@@ -385,10 +400,11 @@ impl Solution {
     /// assert_eq!(Solution::find_the_duplicate_number_hashmap(vec![1,1,2]), 1);
     /// ```
     ///
-    /// # Leetcode Benchmark
+    /// # Benchmark
     ///
-    /// time: 0ms, 100%
-    /// memory: 2.5MB, 5.55%
+    /// Leetcode benchmark
+    /// - time: 0ms, 100%
+    /// - memory: 2.5MB, 5.55%
     pub fn find_the_duplicate_number_hashmap(nums: Vec<i32>) -> i32 {
         let mut container: HashMap<i32, bool> = HashMap::new();
         for i in nums.into_iter() {
@@ -402,7 +418,7 @@ impl Solution {
     }
 }
 
-/// # Q300. 最长递增子序列
+/// # 300. 最长递增子序列
 ///
 /// [Leetcode300](https://leetcode-cn.com/problems/longest-increasing-subsequence/)
 ///
@@ -440,6 +456,12 @@ impl Solution {
     /// assert_eq!(Solution::longest_increasing_subsequence(vec![0, 1, 0, 3, 2, 3]), (vec![0, 1, 2, 3], 4));
     /// assert_eq!(Solution::longest_increasing_subsequence(vec![7, 7, 7, 7, 7, 7, 7]), (vec![7], 1));
     /// ```
+    ///
+    /// # Benchmark
+    ///
+    /// Leetcode benchmark
+    /// - time: 72ms
+    /// - memory: 2MB
     pub fn longest_increasing_subsequence(nums: Vec<i32>) -> (Vec<i32>, i32) {
         let mut lis = vec![1i32; nums.len()];
         for i in 1..nums.len() {
@@ -471,7 +493,7 @@ impl Solution {
     }
 }
 
-/// # Q1143. 最长公共子序列
+/// # 1143. 最长公共子序列
 ///
 /// [Leetcode1143](https://leetcode.com/problems/longest-common-subsequence/)
 ///
@@ -543,7 +565,7 @@ impl Solution {
     }
 }
 
-/// LCP 37. 最小矩形面积
+/// # LCP 37. 最小矩形面积
 ///
 /// 二维平面上有 NNN 条直线，形式为 y = kx + b，其中 k、b为整数 且 k > 0。所有直线以 [k,b] 的形式存于二维数组 lines 中，不存在重合的两条直线。两两直线之间可能存在一个交点，最多会有 C(subN)(sup2)个交点。我们用一个平行于坐标轴的矩形覆盖所有的交点，请问这个矩形最小面积是多少。若直线之间无交点、仅有一个交点或所有交点均在同一条平行坐标轴的直线上，则返回0。
 ///
@@ -569,7 +591,7 @@ impl Solution {
         Solution::min_rec_size_inplace_sort(lines)
     }
 
-    /// ## Examples
+    /// # Examples
     ///
     /// ```rust
     /// use leetcode::Solution;
@@ -581,11 +603,11 @@ impl Solution {
     /// assert_eq!(Solution::min_rec_size_inplace_sort(vec![vec![4,2],vec![5,-1],vec![4,-4],vec![4,0],vec![5,-5]]), 460.0f64);
     /// ```
     ///
-    /// ## Benchmark
+    /// # Benchmark
     ///
     /// Leetcode benchmark
-    ///     time: 36ms
-    ///     memory: 8.4MB
+    /// - time: 36ms
+    /// - memory: 8.4MB
     pub fn min_rec_size_inplace_sort(mut lines: Vec<Vec<i32>>) -> f64 {
         if lines.len() <= 2 {
             return 0f64;
