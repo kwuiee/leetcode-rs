@@ -343,6 +343,10 @@ impl Solution {
 ///     你可以只用常量级 O(1) 的额外空间解决这个问题吗？
 ///     你可以设计一个时间复杂度小于 O(n2) 的解决方案吗？
 impl Solution {
+    pub fn find_the_duplicate_number(nums: Vec<i32>) -> i32 {
+        Solution::find_the_duplicate_number_hashmap(nums)
+    }
+
     /// # Examples
     ///
     /// ```rust
@@ -536,6 +540,133 @@ impl Solution {
             }
         }
         cumu[m][n]
+    }
+}
+
+/// LCP 37. 最小矩形面积
+///
+/// 二维平面上有 NNN 条直线，形式为 y = kx + b，其中 k、b为整数 且 k > 0。所有直线以 [k,b] 的形式存于二维数组 lines 中，不存在重合的两条直线。两两直线之间可能存在一个交点，最多会有 C(subN)(sup2)个交点。我们用一个平行于坐标轴的矩形覆盖所有的交点，请问这个矩形最小面积是多少。若直线之间无交点、仅有一个交点或所有交点均在同一条平行坐标轴的直线上，则返回0。
+///
+/// 注意：返回结果是浮点数，与标准答案 绝对误差或相对误差 在 10^-4 以内的结果都被视为正确结果
+///
+/// 示例 1：
+///     输入：lines = [[2,3],[3,0],[4,1]]
+///     输出：48.00000
+///     解释：三条直线的三个交点为 (3, 9) (1, 5) 和 (-1, -3)。最小覆盖矩形左下角为 (-1, -3) 右上角为 (3,9)，面积为 48
+///
+/// 示例 2：
+///     输入：lines = [[1,1],[2,3]]
+///     输出：0.00000
+///     解释：仅有一个交点 (-2，-1）
+///
+/// 限制：
+///     1 <= lines.length <= 10^5 且 lines[i].length == 2
+///     1 <= lines[0] <= 10000
+///     -10000 <= lines[1] <= 10000
+///     与标准答案绝对误差或相对误差在 10^-4 以内的结果都被视为正确结果
+impl Solution {
+    pub fn min_rec_size(lines: Vec<Vec<i32>>) -> f64 {
+        Solution::min_rec_size_inplace_sort(lines)
+    }
+
+    /// ## Examples
+    ///
+    /// ```rust
+    /// use leetcode::Solution;
+    ///
+    /// assert_eq!(Solution::min_rec_size_inplace_sort(vec![vec![1,1],vec![2,3]]), 0.0f64);
+    /// assert_eq!(Solution::min_rec_size_inplace_sort(vec![vec![2,3],vec![3,0],vec![4,1]]), 48.0f64);
+    /// assert_eq!(Solution::min_rec_size_inplace_sort(vec![vec![2,0],vec![4,-3],vec![2,4],vec![1,-2],vec![1,-1]]), 180.5f64);
+    /// assert_eq!(Solution::min_rec_size_inplace_sort(vec![vec![5,3],vec![3,-3],vec![5,1],vec![5,-5],vec![5,-2]]), 48.0f64);
+    /// assert_eq!(Solution::min_rec_size_inplace_sort(vec![vec![4,2],vec![5,-1],vec![4,-4],vec![4,0],vec![5,-5]]), 460.0f64);
+    /// ```
+    ///
+    /// ## Benchmark
+    ///
+    /// Leetcode benchmark
+    ///     time: 36ms
+    ///     memory: 8.4MB
+    pub fn min_rec_size_inplace_sort(mut lines: Vec<Vec<i32>>) -> f64 {
+        if lines.len() <= 2 {
+            return 0f64;
+        }
+        // sort by k
+        lines.sort_unstable_by(|a, b| {
+            a[0].partial_cmp(&b[0])
+                .unwrap()
+                .then(a[1].partial_cmp(&b[1]).unwrap())
+        });
+        let mut x_min = f64::MAX;
+        let mut x_max = f64::MIN;
+        let mut y_min = f64::MAX;
+        let mut y_max = f64::MIN;
+        let mut iter = lines.iter();
+        let mut prev_up = iter.next().unwrap();
+        let mut prev_down = prev_up;
+        let mut curr_up = loop {
+            let v = if let Some(v) = iter.next() {
+                v
+            } else {
+                return 0f64;
+            };
+            if v[0] == prev_up[0] {
+                prev_up = v;
+                continue;
+            };
+            break v;
+        };
+        let mut curr_down = curr_up;
+        let mut next = iter.next();
+        loop {
+            if next.is_some() && curr_up[0] == next.unwrap()[0] {
+                curr_up = next.unwrap();
+                next = iter.next();
+                continue;
+            };
+            // min
+            if curr_up[0] == prev_down[0] {
+            } else {
+                let x_cross = (f64::from(prev_down[1]) - f64::from(curr_up[1]))
+                    / (f64::from(curr_up[0]) - f64::from(prev_down[0]));
+                let y_cross = (f64::from(curr_up[0]) * f64::from(prev_down[1])
+                    - f64::from(prev_down[0]) * f64::from(curr_up[1]))
+                    / (f64::from(curr_up[0]) - f64::from(prev_down[0]));
+                if x_cross < x_min {
+                    x_min = x_cross;
+                };
+                if y_cross < y_min {
+                    y_min = y_cross;
+                };
+                prev_down = curr_down;
+            };
+            // max
+            if curr_down[0] == prev_up[0] {
+            } else {
+                let x_cross = (f64::from(prev_up[1]) - f64::from(curr_down[1]))
+                    / (f64::from(curr_down[0]) - f64::from(prev_up[0]));
+                let y_cross = (f64::from(curr_down[0]) * f64::from(prev_up[1])
+                    - f64::from(prev_up[0]) * f64::from(curr_down[1]))
+                    / (f64::from(curr_down[0]) - f64::from(prev_up[0]));
+                if x_cross > x_max {
+                    x_max = x_cross;
+                };
+                if y_cross > y_max {
+                    y_max = y_cross;
+                };
+                prev_up = curr_up;
+            };
+            if next.is_none() {
+                break;
+            };
+            curr_up = next.unwrap();
+            curr_down = curr_up;
+            next = iter.next();
+        }
+
+        if x_min == f64::MAX || y_min == f64::MAX || y_max == f64::MIN || x_max == f64::MIN {
+            return 0f64;
+        };
+        (x_max - x_min) * (y_max - y_min)
     }
 }
 
