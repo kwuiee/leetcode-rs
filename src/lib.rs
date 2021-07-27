@@ -692,6 +692,86 @@ impl Solution {
     }
 }
 
+/// 1610. 可见点的最大数目
+///
+/// [Leetcode1610](https://leetcode-cn.com/problems/maximum-number-of-visible-points/)
+impl Solution {
+    /// # Examples
+    ///
+    /// ```rust
+    /// use leetcode::Solution;
+    ///
+    /// assert_eq!(Solution::visible_points(vec![vec![2,1],vec![2,2],vec![3,3]], 90, vec![1,1]), 3);
+    /// assert_eq!(Solution::visible_points(vec![vec![2,1],vec![2,2],vec![3,4],vec![1,1]], 90, vec![1,1]), 4);
+    /// assert_eq!(Solution::visible_points(vec![vec![1,1],vec![2,2],vec![1,2],vec![2,1]], 0, vec![1,1]), 2);
+    /// assert_eq!(Solution::visible_points(vec![vec![1,1],vec![2,2],vec![3,3],vec![4,4],vec![1,2],vec![2,1]], 0, vec![1,1]), 4);
+    /// assert_eq!(Solution::visible_points(vec![vec![20,22],vec![71,38],vec![65,69],vec![63,69],vec![80,2],vec![67,31],vec![65,81],vec![4,58],vec![46,60],vec![32,20],vec![29,86],vec![74,73],vec![3,67],vec![26,0],vec![71,33],vec![76,84],vec![63,4],vec![36,12],vec![28,99],vec![27,85],vec![94,56],vec![32,78],vec![56,49],vec![63,27],vec![41,21],vec![91,96],vec![34,37],vec![9,24],vec![59,51],vec![82,6],vec![94,38],vec![70,87],vec![24,88],vec![42,18],vec![57,46],vec![69,47],vec![10,1],vec![34,67],vec![55,99],vec![81,23],vec![12,63],vec![24,75],vec![39,5],vec![41,42],vec![70,70],vec![7,86],vec![94,45],vec![28,81],vec![22,14],vec![80,87],vec![2,10],vec![26,88],vec![64,72],vec![92,69],vec![74,58],vec![44,38],vec![59,53],vec![10,67],vec![59,21],vec![17,54],vec![51,89],vec![8,37],vec![40,72],vec![71,31],vec![93,5],vec![57,88],vec![60,21],vec![47,40],vec![44,49],vec![16,14],vec![84,37],vec![38,1],vec![29,81],vec![79,38],vec![91,21],vec![4,42],vec![86,45],vec![62,81],vec![29,69],vec![22,71],vec![45,10],vec![28,80],vec![43,71],vec![25,87],vec![8,87],vec![89,42],vec![76,69],vec![97,9],vec![3,26],vec![81,19],vec![5,36],vec![31,100],vec![40,31],vec![23,12],vec![23,45]], 26, vec![61,94]), 27);
+    /// assert_eq!(Solution::visible_points(vec![vec![1,1],vec![1,1],vec![1,1]], 1, vec![1,1]), 3);
+    /// ```
+    ///
+    /// # Benchmark
+    ///
+    /// Leetcode benchmark
+    /// - time: 72ms
+    /// - memory: 10MB
+    pub fn visible_points(points: Vec<Vec<i32>>, angle: i32, location: Vec<i32>) -> i32 {
+        if points.len() <= 0 {
+            return 0;
+        };
+        let mut inplace: usize = 0;
+        let mut angles: Vec<f64> = points
+            .iter()
+            .filter(|i| {
+                if i[0] == location[0] && i[1] == location[1] {
+                    inplace += 1;
+                    false
+                } else {
+                    true
+                }
+            })
+            .map(|i| {
+                f64::from(i[0] - location[0]).atan2(f64::from(i[1] - location[1])) * 180.0f64
+                    / std::f64::consts::PI
+            })
+            .collect::<Vec<f64>>();
+        if angles.is_empty() {
+            return inplace as i32;
+        };
+        let angle = f64::from(angle);
+        angles.sort_unstable_by(|a, b| a.partial_cmp(&b).unwrap());
+        let mut idx = 0;
+        while idx < angles.len() && (180f64 + angles[idx]) < angle {
+            angles.push(360f64 + angles[idx]);
+            idx += 1;
+        };
+        let mut iter = angles.iter();
+        let mut start = iter.next().unwrap();
+        let mut start_idx: usize = 0;
+        let mut end_idx: usize = 1;
+        let mut count: usize = 1;
+        let mut next = iter.next();
+        loop {
+            let n = if let Some(v) = next {
+                v
+            } else {
+                break ((std::cmp::max(count, end_idx - start_idx) + inplace) as i32);
+            };
+            // end forward
+            if n - start <= angle {
+                end_idx += 1;
+                next = iter.next();
+                continue;
+            };
+            if end_idx - start_idx > count {
+                count = end_idx - start_idx;
+            }
+            // start forward
+            start_idx += 1;
+            start = &angles[start_idx];
+        }
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
