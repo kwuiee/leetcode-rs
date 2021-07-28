@@ -380,7 +380,7 @@ impl Solution {
     pub fn find_the_duplicate_number_btreemap(nums: Vec<i32>) -> i32 {
         let mut container: BTreeMap<i32, bool> = BTreeMap::new();
         for i in nums.into_iter() {
-            if let Some(_) = container.get(&i) {
+            if container.get(&i).is_some() {
                 return i;
             } else {
                 container.insert(i, true);
@@ -408,7 +408,7 @@ impl Solution {
     pub fn find_the_duplicate_number_hashmap(nums: Vec<i32>) -> i32 {
         let mut container: HashMap<i32, bool> = HashMap::new();
         for i in nums.into_iter() {
-            if let Some(_) = container.get(&i) {
+            if container.get(&i).is_some() {
                 return i;
             } else {
                 container.insert(i, true);
@@ -462,6 +462,7 @@ impl Solution {
     /// Leetcode benchmark
     /// - time: 72ms
     /// - memory: 2MB
+    #[allow(clippy::needless_collect)]
     pub fn longest_increasing_subsequence(nums: Vec<i32>) -> (Vec<i32>, i32) {
         let mut lis = vec![1i32; nums.len()];
         for i in 1..nums.len() {
@@ -715,7 +716,7 @@ impl Solution {
     /// - time: 72ms
     /// - memory: 10MB
     pub fn visible_points(points: Vec<Vec<i32>>, angle: i32, location: Vec<i32>) -> i32 {
-        if points.len() <= 0 {
+        if points.is_empty() {
             return 0;
         };
         let mut inplace: usize = 0;
@@ -738,12 +739,12 @@ impl Solution {
             return inplace as i32;
         };
         let angle = f64::from(angle);
-        angles.sort_unstable_by(|a, b| a.partial_cmp(&b).unwrap());
+        angles.sort_unstable_by(|a, b| a.partial_cmp(b).unwrap());
         let mut idx = 0;
         while idx < angles.len() && (180f64 + angles[idx]) < angle {
             angles.push(360f64 + angles[idx]);
             idx += 1;
-        };
+        }
         let mut iter = angles.iter();
         let mut start = iter.next().unwrap();
         let mut start_idx: usize = 0;
