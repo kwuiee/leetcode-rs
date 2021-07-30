@@ -605,6 +605,10 @@ impl Solution {
 ///     1 <= text2.length <= 1000
 ///     输入的字符串只含有小写英文字符。
 impl Solution {
+    pub fn longest_common_subsequence(text1: String, text2: String) -> i32 {
+        Solution::longest_common_subsequence_iter(text1, text2)
+    }
+
     /// # Solution
     ///
     ///   a b c d e
@@ -617,13 +621,50 @@ impl Solution {
     /// ```rust
     /// use leetcode::Solution;
     ///
-    /// assert_eq!(Solution::longest_common_subsequence(String::from("abcde"), String::from("ace")), 3);
+    /// assert_eq!(Solution::longest_common_subsequence_iter(String::from("abcde"), String::from("ace")), 3);
     /// ```
     ///
     /// # Benchmark
     ///
-    /// time ~ O(m*n)
-    pub fn longest_common_subsequence(text1: String, text2: String) -> i32 {
+    /// Leetcode benchmark
+    /// - time: 0ms
+    /// - memory: 2MB
+    pub fn longest_common_subsequence_iter(text1: String, text2: String) -> i32 {
+        // The length of this String, in bytes, not chars or graphemes. In other words, it may not
+        // be what a human considers the length of the string.
+        let len = text1.len();
+        let mut dist: Vec<i32> = vec![0; len + 1];
+
+        text2.chars().for_each(|c2| {
+            let mut old = dist[0];
+            text1.chars().enumerate().for_each(|(idx1, c1)| {
+                let new = dist[idx1 + 1];
+                dist[idx1 + 1] = if c1 == c2 {
+                    (old + 1).max(dist[idx1 + 1]).max(dist[idx1])
+                } else {
+                    dist[idx1 + 1].max(dist[idx1])
+                };
+                old = new;
+            })
+        });
+
+        dist[len]
+    }
+
+    /// # Example
+    ///
+    /// ```rust
+    /// use leetcode::Solution;
+    ///
+    /// assert_eq!(Solution::longest_common_subsequence_for_loop(String::from("abcde"), String::from("ace")), 3);
+    /// ```
+    ///
+    /// # Benchmark
+    ///
+    /// Leetcode benchmark
+    /// - time: 0ms
+    /// - memory: 5MB
+    pub fn longest_common_subsequence_for_loop(text1: String, text2: String) -> i32 {
         let (slice1, slice2) = (text1.as_bytes(), text2.as_bytes());
         let (m, n) = (text1.len(), text2.len());
         let mut cumu = vec![vec![0i32; n + 1]; m + 1];
