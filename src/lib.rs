@@ -288,7 +288,6 @@ impl Solution {
     pub fn min_edit_distance(word1: String, word2: String) -> i32 {
         // The length of this String, in bytes, not chars or graphemes. In other words, it may not
         // be what a human considers the length of the string.
-
         if word1.is_empty() {
             return word2.len() as i32;
         } else if word2.is_empty() {
@@ -296,11 +295,11 @@ impl Solution {
         };
 
         let len = word1.len();
-        let mut dist: Vec<usize> = (0..=len).collect();
+        let mut dist: Vec<i32> = (0..=(len as i32)).collect();
 
         word2.chars().enumerate().for_each(|(idx2, c2)| {
             let mut old = dist[0];
-            dist[0] = idx2 + 1;
+            dist[0] = (idx2 as i32) + 1;
             word1.chars().enumerate().for_each(|(idx1, c1)| {
                 let new = dist[idx1 + 1];
                 dist[idx1 + 1] = if c2 == c1 {
@@ -312,7 +311,7 @@ impl Solution {
             });
         });
 
-        dist[len] as i32
+        dist[len]
     }
 }
 
