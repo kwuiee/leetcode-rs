@@ -242,6 +242,83 @@ impl Solution {
     }
 }
 
+/// 72. 编辑距离
+///
+/// 给你两个单词 word1 和 word2，请你计算出将 word1 转换成 word2 所使用的最少操作数 。
+///
+/// 你可以对一个单词进行如下三种操作：
+/// 1. 插入一个字符
+/// 2. 删除一个字符
+/// 3. 替换一个字符
+///
+/// 示例 1：
+///     输入：word1 = "horse", word2 = "ros"
+///     输出：3
+///     解释：
+///         horse -> rorse (将 'h' 替换为 'r')
+///         rorse -> rose (删除 'r')
+///         rose -> ros (删除 'e')
+///
+/// 示例 2：
+///     输入：word1 = "intention", word2 = "execution"
+///     输出：5
+///     解释：
+///         intention -> inention (删除 't')
+///         inention -> enention (将 'i' 替换为 'e')
+///         enention -> exention (将 'n' 替换为 'x')
+///         exention -> exection (将 'n' 替换为 'c')
+///         exection -> execution (插入 'u')
+///
+///  提示：
+///  1. 0 <= word1.length, word2.length <= 500
+///  2. word1 和 word2 由小写英文字母组成
+///
+impl Solution {
+    /// # Examples
+    ///
+    /// ```rust
+    /// use leetcode::Solution;
+    ///
+    /// assert_eq!(Solution::min_edit_distance(String::from("horse"), String::from("ros")), 3);
+    /// assert_eq!(Solution::min_edit_distance(String::from("intention"), String::from("execution")), 5);
+    /// ```
+    ///
+    /// # Benchmark
+    ///
+    /// Leetcode benchmark
+    /// - time: 0ms
+    /// - memory: 1.9MB
+    pub fn min_edit_distance(word1: String, word2: String) -> i32 {
+        // The length of this String, in bytes, not chars or graphemes. In other words, it may not
+        // be what a human considers the length of the string.
+
+        if word1.is_empty() {
+            return word2.len() as i32;
+        } else if word2.is_empty() {
+            return word1.len() as i32;
+        };
+
+        let len = word1.len();
+        let mut dist: Vec<usize> = (0..=len).collect();
+
+        word2.chars().enumerate().for_each(|(idx2, c2)| {
+            let mut old = dist[0];
+            dist[0] = idx2 + 1;
+            word1.chars().enumerate().for_each(|(idx1, c1)| {
+                let new = dist[idx1 + 1];
+                dist[idx1 + 1] = if c2 == c1 {
+                    old
+                } else {
+                    old.min(dist[idx1]).min(dist[idx1 + 1]) + 1
+                };
+                old = new;
+            });
+        });
+
+        dist[len] as i32
+    }
+}
+
 /// # 153. 寻找旋转排序数组中的最小值
 ///
 /// 已知一个长度为 n 的数组, 预先按照升序排列, 经由 1 到 n 次 旋转 后, 得到输入数组。例如, 原数组 nums = [0,1,2,4,5,6,7] 在变化后可能得到：
@@ -423,7 +500,8 @@ impl Solution {
 /// [Leetcode300](https://leetcode-cn.com/problems/longest-increasing-subsequence/)
 ///
 /// 给你一个整数数组 nums ，找到其中最长严格递增子序列的长度。
-/// 子序列是由数组派生而来的序列，删除（或不删除）数组中的元素而不改变其余元素的顺序。例如，[3,6,2,7] 是数组 [0,3,1,6,2,2,7] 的子序列。
+/// 子序列是由数组派生而来的序列，删除（或不删除）数组中的元素而不改变其余元素的顺序。
+/// 例如，[3,6,2,7] 是数组 [0,3,1,6,2,2,7] 的子序列。
 ///
 /// 示例 1：
 /// 输入：nums = [10,9,2,5,3,7,101,18]
