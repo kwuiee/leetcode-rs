@@ -176,10 +176,8 @@ impl Solution {
     /// # Benchmark
     ///
     /// Leetcode benchmark
-    ///
     /// - time: 4ms
     /// - memory: 2m
-    ///
     pub fn find_median_sorted_arrays(nums1: &[i32], nums2: &[i32]) -> f64 {
         use std::cmp;
         use std::i32;
@@ -272,7 +270,6 @@ impl Solution {
 ///  提示：
 ///  1. 0 <= word1.length, word2.length <= 500
 ///  2. word1 和 word2 由小写英文字母组成
-///
 impl Solution {
     /// # Examples
     ///
@@ -626,7 +623,6 @@ impl Solution {
     /// # Benchmark
     ///
     /// time ~ O(m*n)
-    ///
     pub fn longest_common_subsequence(text1: String, text2: String) -> i32 {
         let (slice1, slice2) = (text1.as_bytes(), text2.as_bytes());
         let (m, n) = (text1.len(), text2.len());
@@ -784,7 +780,39 @@ impl Solution {
     /// assert_eq!(Solution::visible_points(vec![vec![2,1],vec![2,2],vec![3,4],vec![1,1]], 90, vec![1,1]), 4);
     /// assert_eq!(Solution::visible_points(vec![vec![1,1],vec![2,2],vec![1,2],vec![2,1]], 0, vec![1,1]), 2);
     /// assert_eq!(Solution::visible_points(vec![vec![1,1],vec![2,2],vec![3,3],vec![4,4],vec![1,2],vec![2,1]], 0, vec![1,1]), 4);
-    /// assert_eq!(Solution::visible_points(vec![vec![20,22],vec![71,38],vec![65,69],vec![63,69],vec![80,2],vec![67,31],vec![65,81],vec![4,58],vec![46,60],vec![32,20],vec![29,86],vec![74,73],vec![3,67],vec![26,0],vec![71,33],vec![76,84],vec![63,4],vec![36,12],vec![28,99],vec![27,85],vec![94,56],vec![32,78],vec![56,49],vec![63,27],vec![41,21],vec![91,96],vec![34,37],vec![9,24],vec![59,51],vec![82,6],vec![94,38],vec![70,87],vec![24,88],vec![42,18],vec![57,46],vec![69,47],vec![10,1],vec![34,67],vec![55,99],vec![81,23],vec![12,63],vec![24,75],vec![39,5],vec![41,42],vec![70,70],vec![7,86],vec![94,45],vec![28,81],vec![22,14],vec![80,87],vec![2,10],vec![26,88],vec![64,72],vec![92,69],vec![74,58],vec![44,38],vec![59,53],vec![10,67],vec![59,21],vec![17,54],vec![51,89],vec![8,37],vec![40,72],vec![71,31],vec![93,5],vec![57,88],vec![60,21],vec![47,40],vec![44,49],vec![16,14],vec![84,37],vec![38,1],vec![29,81],vec![79,38],vec![91,21],vec![4,42],vec![86,45],vec![62,81],vec![29,69],vec![22,71],vec![45,10],vec![28,80],vec![43,71],vec![25,87],vec![8,87],vec![89,42],vec![76,69],vec![97,9],vec![3,26],vec![81,19],vec![5,36],vec![31,100],vec![40,31],vec![23,12],vec![23,45]], 26, vec![61,94]), 27);
+    /// assert_eq!(
+    ///     Solution::visible_points(
+    ///         vec![
+    ///             vec![20,22], vec![71,38], vec![65,69], vec![63,69],
+    ///             vec![80,2], vec![67,31], vec![65,81], vec![4,58],
+    ///             vec![46,60], vec![32,20], vec![29,86], vec![74,73],
+    ///             vec![3,67], vec![26,0], vec![71,33], vec![76,84],
+    ///             vec![63,4], vec![36,12], vec![28,99], vec![27,85],
+    ///             vec![94,56], vec![32,78], vec![56,49], vec![63,27],
+    ///             vec![41,21], vec![91,96], vec![34,37], vec![9,24],
+    ///             vec![59,51], vec![82,6], vec![94,38], vec![70,87],
+    ///             vec![24,88], vec![42,18], vec![57,46], vec![69,47],
+    ///             vec![10,1], vec![34,67], vec![55,99], vec![81,23],
+    ///             vec![12,63], vec![24,75], vec![39,5], vec![41,42],
+    ///             vec![70,70], vec![7,86], vec![94,45], vec![28,81],
+    ///             vec![22,14], vec![80,87], vec![2,10], vec![26,88],
+    ///             vec![64,72], vec![92,69], vec![74,58], vec![44,38],
+    ///             vec![59,53], vec![10,67], vec![59,21], vec![17,54],
+    ///             vec![51,89], vec![8,37], vec![40,72], vec![71,31],
+    ///             vec![93,5], vec![57,88], vec![60,21], vec![47,40],
+    ///             vec![44,49], vec![16,14], vec![84,37], vec![38,1],
+    ///             vec![29,81], vec![79,38], vec![91,21], vec![4,42],
+    ///             vec![86,45], vec![62,81], vec![29,69], vec![22,71],
+    ///             vec![45,10], vec![28,80], vec![43,71], vec![25,87],
+    ///             vec![8,87], vec![89,42], vec![76,69], vec![97,9],
+    ///             vec![3,26], vec![81,19], vec![5,36], vec![31,100],
+    ///             vec![40,31], vec![23,12], vec![23,45]
+    ///         ],
+    ///         26,
+    ///         vec![61,94],
+    ///     ),
+    ///     27,
+    /// );
     /// assert_eq!(Solution::visible_points(vec![vec![1,1],vec![1,1],vec![1,1]], 1, vec![1,1]), 3);
     /// ```
     ///
