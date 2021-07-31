@@ -1,16 +1,16 @@
-//  .--,       .--,
-// ( (  \.---./  ) )
-//  '.__/o   o\__.'
-//     {=  ^  =}
-//      >  -  <
-//     /       \   JoJo
-//    //       \\
-//   //|   .   |\\
-//   "'\       /'"_.-~^`'-.
-//      \  _  /--'         `
-//    ___)( )(___
-//   (((__) (__)))
-//
+//!  .--,       .--,
+//! ( (  \.---./  ) )
+//!  '.__/o   o\__.'
+//!     {=  ^  =}
+//!      >  -  <
+//!     /       \   JoJo
+//!    //       \\
+//!   //|   .   |\\
+//!   "'\       /'"_.-~^`'-.
+//!      \  _  /--'         `
+//!    ___)( )(___
+//!   (((__) (__)))
+//!
 //! Leetcode Solutions.
 //!
 //! A rust implementation.
@@ -276,8 +276,8 @@ impl Solution {
     /// ```rust
     /// use leetcode::Solution;
     ///
-    /// assert_eq!(Solution::min_edit_distance(String::from("horse"), String::from("ros")), 3);
-    /// assert_eq!(Solution::min_edit_distance(String::from("intention"), String::from("execution")), 5);
+    /// assert_eq!(Solution::edit_distance(String::from("horse"), String::from("ros")), 3);
+    /// assert_eq!(Solution::edit_distance(String::from("intention"), String::from("execution")), 5);
     /// ```
     ///
     /// # Benchmark
@@ -285,7 +285,7 @@ impl Solution {
     /// Leetcode benchmark
     /// - time: 0ms
     /// - memory: 1.9MB
-    pub fn min_edit_distance(word1: String, word2: String) -> i32 {
+    pub fn edit_distance(word1: String, word2: String) -> i32 {
         // The length of this String, in bytes, not chars or graphemes. In other words, it may not
         // be what a human considers the length of the string.
         if word1.is_empty() {
@@ -317,13 +317,15 @@ impl Solution {
 
 /// # 153. 寻找旋转排序数组中的最小值
 ///
-/// 已知一个长度为 n 的数组, 预先按照升序排列, 经由 1 到 n 次 旋转 后, 得到输入数组。例如, 原数组 nums = [0,1,2,4,5,6,7] 在变化后可能得到：
+/// 已知一个长度为 n 的数组, 预先按照升序排列, 经由 1 到 n 次 旋转 后, 得到输入数组。
+/// 例如, 原数组 nums = [0,1,2,4,5,6,7] 在变化后可能得到：
 /// 若旋转 4 次, 则可以得到 [4,5,6,7,0,1,2]
 /// 若旋转 7 次, 则可以得到 [0,1,2,4,5,6,7]
 ///
 /// 注意, 数组 [a[0], a[1], a[2], ..., a[n-1]] 旋转一次 的结果为数组 [a[n-1], a[0], a[1], a[2], ..., a[n-2]] 。
 ///
-/// 给你一个元素值 互不相同 的数组 nums , 它原来是一个升序排列的数组, 并按上述情形进行了多次旋转。请你找出并返回数组中的 最小元素 。
+/// 给你一个元素值 互不相同 的数组 nums , 它原来是一个升序排列的数组, 并按上述情形进行了多次旋转。
+/// 请你找出并返回数组中的 最小元素 。
 ///
 ///
 /// 示例 1：
@@ -357,9 +359,9 @@ impl Solution {
     /// ```rust
     /// use leetcode::Solution;
     ///
-    /// assert_eq!(Solution::find_min_in_rotated_sorted_arrary(vec![4,5,6,7,0,1,2]), 0);
-    /// assert_eq!(Solution::find_min_in_rotated_sorted_arrary(vec![3,4,5,1,2]), 1);
-    /// assert_eq!(Solution::find_min_in_rotated_sorted_arrary(vec![11,13,15,17]), 11);
+    /// assert_eq!(Solution::find_min_in_rotated_sorted_array(vec![4,5,6,7,0,1,2]), 0);
+    /// assert_eq!(Solution::find_min_in_rotated_sorted_array(vec![3,4,5,1,2]), 1);
+    /// assert_eq!(Solution::find_min_in_rotated_sorted_array(vec![11,13,15,17]), 11);
     /// ```
     ///
     /// # Benchmark
@@ -367,7 +369,7 @@ impl Solution {
     /// Leetcode benchmark
     /// - time 0ms
     /// - memory 1.9m
-    pub fn find_min_in_rotated_sorted_arrary(nums: Vec<i32>) -> i32 {
+    pub fn find_min_in_rotated_sorted_array(nums: Vec<i32>) -> i32 {
         // Commented for memory saving.
         // assert!(nums.len() >= 1);
         let mut low: usize = 0;
@@ -521,6 +523,42 @@ impl Solution {
 ///     你可以设计时间复杂度为 O(n2) 的解决方案吗？
 ///     你能将算法的时间复杂度降低到 O(n log(n)) 吗?
 impl Solution {
+    /// 最长递增子序列长度
+    ///
+    /// # Example
+    ///
+    /// ```rust
+    /// use leetcode::Solution;
+    ///
+    /// assert_eq!(Solution::length_of_lis(vec![10, 9, 2, 5, 3, 7, 101, 18]), 4);
+    /// assert_eq!(Solution::length_of_lis(vec![0, 1, 0, 3, 2, 3]), 4);
+    /// assert_eq!(Solution::length_of_lis(vec![7, 7, 7, 7, 7, 7, 7]), 1);
+    /// ```
+    ///
+    /// # Benchmark
+    ///
+    /// Leetcode benchmark
+    /// - time: 72ms
+    /// - memory: 2MB
+    pub fn length_of_lis(nums: Vec<i32>) -> i32 {
+        if nums.is_empty() {
+            return 0;
+        }
+
+        let mut lis = vec![1i32; nums.len()];
+        for i in 1..nums.len() {
+            for j in 0..i {
+                if nums[i] > nums[j] && lis[i] < lis[j] + 1 {
+                    lis[i] = lis[j] + 1
+                }
+            }
+        }
+
+        *lis.iter().max().unwrap()
+    }
+
+    /// 最长递增子序列
+    ///
     /// # Example
     ///
     /// ```rust
@@ -532,12 +570,12 @@ impl Solution {
     /// ```
     ///
     /// # Benchmark
-    ///
-    /// Leetcode benchmark
-    /// - time: 72ms
-    /// - memory: 2MB
     #[allow(clippy::needless_collect)]
     pub fn longest_increasing_subsequence(nums: Vec<i32>) -> (Vec<i32>, i32) {
+        if nums.is_empty() {
+            return (vec![], 0);
+        }
+
         let mut lis = vec![1i32; nums.len()];
         for i in 1..nums.len() {
             for j in 0..i {
@@ -576,8 +614,7 @@ impl Solution {
 ///
 /// 一个字符串的 子序列
 /// 是指这样一个新的字符串：它是由原字符串在不改变字符的相对顺序的情况下删除某些字符（也可以不删除任何字符）后组成的新字符串。
-/// 例如，"ace" 是 "abcde" 的子序列，但 "aec" 不是 "abcde"
-/// 的子序列。两个字符串的「公共子序列」是这两个字符串所共同拥有的子序列。
+/// 例如，"ace" 是 "abcde" 的子序列，但 "aec" 不是 "abcde"的子序列。两个字符串的「公共子序列」是这两个字符串所共同拥有的子序列。
 ///
 /// 若这两个字符串没有公共子序列，则返回 0。
 ///
@@ -682,7 +719,9 @@ impl Solution {
 
 /// # LCP 37. 最小矩形面积
 ///
-/// 二维平面上有 NNN 条直线，形式为 y = kx + b，其中 k、b为整数 且 k > 0。所有直线以 [k,b] 的形式存于二维数组 lines 中，不存在重合的两条直线。两两直线之间可能存在一个交点，最多会有 C(subN)(sup2)个交点。我们用一个平行于坐标轴的矩形覆盖所有的交点，请问这个矩形最小面积是多少。若直线之间无交点、仅有一个交点或所有交点均在同一条平行坐标轴的直线上，则返回0。
+/// 二维平面上有 NNN 条直线，形式为 y = kx + b，其中 k、b为整数 且 k > 0。所有直线以 [k,b] 的形式存于二维数组 lines 中，
+/// 不存在重合的两条直线。两两直线之间可能存在一个交点，最多会有 C(subN)(sup2)个交点。我们用一个平行于坐标轴的矩形覆盖所
+/// 有的交点，请问这个矩形最小面积是多少。若直线之间无交点、仅有一个交点或所有交点均在同一条平行坐标轴的直线上，则返回0。
 ///
 /// 注意：返回结果是浮点数，与标准答案 绝对误差或相对误差 在 10^-4 以内的结果都被视为正确结果
 ///
